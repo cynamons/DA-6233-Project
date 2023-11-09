@@ -1,0 +1,16 @@
+Team			Team
+Point Diff Rank		Rank of below
+Point Diff		Points scored per 100 possessions minus points allowed per 100 possessions
+W			Wins
+L			Losses
+Win%			Win percentage
+Exp W82			How many games in an 82 game season would we normally expect a team with 		this efficiency differential to win?
+Exp W			How many games (given how many team has played) would we normally expect a team with this efficiency differential to win?
+Win Diff Rank		Rank of below
+Win Diff		What's the difference between the number of games the team has won and what would be expected based on their efficiency differential?
+Offense Rank		Rank of below
+Offense			Points scored per 100 possessions played
+Defense Rank		Rank of below
+Defense			Points allowed per 100 posessions played
+Spread Diff Rank	Rank of below
+Spread Diff		What was the team's average point differential relatuve to the Vegas Spread

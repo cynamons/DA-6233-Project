@@ -1,0 +1,47 @@
+---
+title: "Shot Map"
+date: "2023-11-8"
+format:
+  html: 
+    theme: none
+    embed-resources: TRUE
+---
+
+```{r include=FALSE}
+pacman::p_load(tidyverse, ggplot, grid, jpeg, RCurl)
+#theme_set(theme_minimal())
+
+my_wd = "C:/Users/samuel.cynamon/OneDrive - LinQuest Corporation/Documents/MSDA/2023/DA6233/DA-6233-Project"
+setwd(my_wd) # set your own path
+```
+
+```{r}
+d1 = read_csv(here::here("data/nba_shots","20220321.csv"), show_col_types = FALSE) 
+
+d2 = d1 %>% filter(player %in% c('LeBron James')) 
+```
+
+```{r}
+# based off of https://thedatagame.com.au/2015/09/27/how-to-create-nba-shot-charts-in-r/
+
+courtImg.URL <- "https://thedatagame.files.wordpress.com/2016/03/nba_court.jpg"
+
+court <- rasterGrob(readJPEG(here::here("data","nba_court.jpg")),
+           width=unit(1,"npc"), height=unit(1,"npc"))
+
+ggplot(d2, aes(x=shotX, y=shotY)) + 
+      annotation_custom(court, 0, 50, -5, 60) +
+      geom_point(aes(colour = made, shape = shot_type)) +
+      xlim(0, 50) +
+      ylim(-5, 60)  +
+      ggtitle(paste("Shot Chart:", unique(d2$player), sep = " ")) +
+      theme(line = element_blank(),
+           axis.title.x = element_blank(),
+           axis.title.y = element_blank(),
+           axis.text.x = element_blank(),
+           axis.text.y = element_blank(),
+           legend.title = element_blank(),
+           plot.title = element_text(size = 15, lineheight = 0.9, face = "bold"))
+
+```
+

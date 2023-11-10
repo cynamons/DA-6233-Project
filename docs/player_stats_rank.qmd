@@ -1,5 +1,5 @@
 ---
-title: "Best PLayers?"
+title: "2021-2022 Player Rankings By Team"
 date: "2023-11-8"
 format:
   html: 
@@ -11,12 +11,28 @@ format:
 pacman::p_load(tidyverse, ggplot, grid, jpeg, RCurl)
 #theme_set(theme_minimal())
 
-my_wd = "C:/Users/samuel.cynamon/OneDrive - LinQuest Corporation/Documents/MSDA/2023/DA6233/DA-6233-Project"
-setwd(my_wd) # set your own path
 ```
 
 ```{r}
-d1 = read_csv(here::here("data/nba_shots","20220321.csv"), show_col_types = FALSE) 
+d1 = read_delim(here::here("data","2021-2022 NBA Player Stats - Regular.csv"), delim=";", show_col_types = FALSE) 
+d1$id <- 1:nrow(d1) 
 
-d2 = d1 %>% filter(player %in% c('LeBron James')) 
+d2 <- d1 %>% 
+  select(id, Rk, Player, Tm, Pos) %>% 
+  group_by(Player) %>% 
+  mutate(
+    max_col = max(id)
+  ) %>% 
+  filter(id == max_col) %>% 
+  select(Rk, Player, Pos, Tm) %>% 
+  arrange(Tm, Rk) %>% 
+  group_by(Tm) %>% 
+  mutate(Tm_Rk = 1:n()) %>% 
+  ungroup()
+
+# All Player Team Rankings
+d2
+
+# Assuming Team Protects Top 8 Team Ranked, This is the available rosters
+d2 %>% filter(Tm_Rk > 8)
 ```

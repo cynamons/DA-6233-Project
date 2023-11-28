@@ -1,0 +1,50 @@
+---
+title: "Defense Analysis"
+format:
+  html: 
+    theme: none
+    embed-resources: TRUE
+---
+
+```{r include=FALSE}
+pacman::p_load(tidyverse, highcharter)
+```
+
+```{r message=FALSE}
+d1 = read_csv(here::here("data/League Data","All NBA Seasons League Data.csv")) 
+```
+
+```{r message=FALSE}
+def_rankd <- d1 %>% 
+  filter(Defense.Rank < 6) %>% 
+  group_by(year, Team, Defense.Rank) %>% 
+  summarize(
+    Wins = W
+    , Tot_Games = W + L
+  ) %>% 
+  filter(year > 2015)  
+
+def_rankd %>% 
+  hchart("line", hcaes(x = year, y = Wins, group=Defense.Rank)) %>% 
+  hc_add_theme(hc_theme_flat()) 
+```
+
+
+```{r message=FALSE}
+def_rankd %>% 
+  hchart("line", hcaes(x = year, y = Wins, group=Team)) %>% 
+  hc_add_theme(hc_theme_flat())
+```
+
+
+```{r message=FALSE}
+def_rankd %>% 
+  hchart("line", hcaes(x = year, y = Defense.Rank, group=Team)) %>% 
+  hc_add_theme(hc_theme_flat())
+```
+
+```{r message=FALSE}
+def_rankd %>% 
+  hchart("scatter", hcaes(x = Defense.Rank, y = Wins, group=year)) %>% 
+  hc_add_theme(hc_theme_flat())
+```

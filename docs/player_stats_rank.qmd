@@ -18,14 +18,14 @@ d1 = read_delim(here::here("data","2021-2022 NBA Player Stats - Regular.csv"), d
 d1$id <- 1:nrow(d1) 
 
 d2 <- d1 %>% 
-  select(id, Rk, Player, Tm, Pos) %>% 
+  select(id, PTS, Player, Tm, Pos) %>% 
   group_by(Player) %>% 
   mutate(
     max_col = max(id)
   ) %>% 
   filter(id == max_col) %>% 
-  select(Rk, Player, Pos, Tm) %>% 
-  arrange(Tm, Rk) %>% 
+  select(PTS, Player, Pos, Tm) %>% 
+  arrange(Tm, -PTS) %>% 
   group_by(Tm) %>% 
   mutate(Tm_Rk = 1:n()) %>% 
   ungroup()
